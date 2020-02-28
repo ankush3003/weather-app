@@ -9,17 +9,29 @@
             type="com.exercise.weatherapp.ui.mainlist.MainActivityViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include
+            android:id="@+id/shimmer_view_container"
             layout="@layout/layout_dummy_shimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:viewmodel="@{viewmodel}"/>
+            app:viewmodel="@{viewmodel}" />
 
-        <!--<androidx.recyclerview.widget.RecyclerView
+        <TextView
+            android:id="@+id/cityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activityPadding"
+            android:layout_marginStart="@dimen/activityPadding"
+            android:textSize="20sp"
+            app:isVisible="@{!viewmodel.showErrorView}"
+            android:layout_centerHorizontal="true"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_weather"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,7 +40,8 @@
             app:items="@{viewmodel.weatherList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/layout_item_weather"
-            app:isVisible="@{!viewmodel.showErrorView}"/> -->
+            app:isVisible="@{!viewmodel.showErrorView}"
+            android:layout_below="@id/cityName"/>
 
         <include
             layout="@layout/layout_no_network"
@@ -36,5 +49,5 @@
             android:layout_height="match_parent"
             app:viewmodel="@{viewmodel}"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </layout>
