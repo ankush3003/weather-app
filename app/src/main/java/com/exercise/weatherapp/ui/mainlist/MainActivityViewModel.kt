@@ -1,7 +1,10 @@
 package com.exercise.weatherapp.ui.mainlist
 
+import android.database.Observable
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.exercise.weatherapp.BR
 import com.exercise.weatherapp.R
@@ -16,20 +19,24 @@ class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewM
     val weatherList = ObservableArrayList<WeatherData>()
     val showShimmerView = ObservableBoolean(true)
     val showErrorView = ObservableBoolean(false)
+    val cityName: ObservableField<String> = ObservableField("")
 
-    //override val coroutineContext: CoroutineContext = Dispatchers.Main + job
-    // Q: What is withContext, Scope?, suspend/resume?
     fun getTodayWeather() {
+        showShimmerView.set(true)
+        weatherList.clear()
         CoroutineScope(Dispatchers.Main).launch {
             val result = withContext(Dispatchers.IO) { dataRepository.getTodayWeather() }
-            showShimmerView.set(false)
             when (result) {
                 is UseCaseResult.Success -> {
+                    showShimmerView.set(false)
+                    showErrorView.set(false)
+
                     weatherList.clear()
                     weatherList.add(result.data)
-                    showErrorView.set(false)
+                    cityName.set(result.data.name)
                 }
                 is UseCaseResult.Error -> {
+                    showShimmerView.set(false)
                     showErrorView.set(true)
                 }
             }
@@ -37,17 +44,29 @@ class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewM
     }
 
     fun getWeatherForecast() {
+        showShimmerView.set(true)
+        weatherList.clear()
         CoroutineScope(Dispatchers.Main).launch {
             val result = withContext(Dispatchers.IO) { dataRepository.getWeatherForecast() }
             showShimmerView.set(false)
             when (result) {
                 is UseCaseResult.Success -> {
-                    weatherList.clear()
-                    //weatherList.addAll(result.data.list)
-                    showErrorView.set(false)
+
+                    result.data.list?.let {
+                        showShimmerView.set(false)
+                        showErrorView.set(false)
+
+                        weatherList.clear()
+                        weatherList.addAll(it)
+                    }
+
+                    result.data.city?.let{
+                         cityName.set(it.name)
+                    }
                 }
                 is UseCaseResult.Error -> {
                     showErrorView.set(true)
+                    showShimmerView.set(false)
                 }
             }
         }
@@ -57,7 +76,7 @@ class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewM
         if (weatherList.isNullOrEmpty()) {
             showErrorView.set(false)
             showShimmerView.set(true)
-            getTodayWeather()
+            getWeatherForecast()
         }
     }
 

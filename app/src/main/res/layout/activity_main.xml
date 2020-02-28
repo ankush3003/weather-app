@@ -13,6 +13,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/btn_weather_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/today"
+            app:isVisible="@{!viewmodel.showShimmerView}"
+            android:padding="@dimen/dimen_8"
+            android:layout_marginStart="@dimen/activityPadding"
+            android:layout_marginTop="@dimen/activityPadding"
+            android:onClick="@{() -> viewmodel.getTodayWeather()}"/>
+        <Button
+            android:id="@+id/btn_weather_forecast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forecast"
+            app:isVisible="@{!viewmodel.showShimmerView}"
+            android:padding="@dimen/dimen_8"
+            android:layout_toEndOf="@id/btn_weather_today"
+            android:layout_marginStart="@dimen/activityPadding"
+            android:onClick="@{() -> viewmodel.getWeatherForecast()}"
+            android:layout_marginTop="@dimen/activityPadding"/>
+
         <include
             android:id="@+id/shimmer_view_container"
             layout="@layout/layout_dummy_shimmer"
@@ -27,8 +49,11 @@
             android:layout_marginTop="@dimen/activityPadding"
             android:layout_marginStart="@dimen/activityPadding"
             android:textSize="20sp"
-            app:isVisible="@{!viewmodel.showErrorView}"
+            app:isVisible="@{!viewmodel.showShimmerView}"
             android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:layout_below="@id/btn_weather_today"
+            android:text="@{viewmodel.cityName}"
             />
 
         <androidx.recyclerview.widget.RecyclerView

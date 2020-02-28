@@ -17,6 +17,6 @@ class MainActivity : AppCompatActivity() {
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mainBinding.viewmodel = todoListModel
 
-        todoListModel.reloadList()
+        todoListModel.getWeatherForecast()
     }
 }

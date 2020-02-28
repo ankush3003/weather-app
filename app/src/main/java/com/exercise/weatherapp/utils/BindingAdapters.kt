@@ -33,4 +33,59 @@ object BindingAdapters {
         }
     }
 
+    @JvmStatic
+    @BindingAdapter("app:showDate")
+    fun showDate(view: TextView, date: Long?) {
+        date?.let {
+            view.text = DateUtils.getDateAsString(date)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["minTemp", "maxTemp"], requireAll = true)
+    fun setTempString(
+        view: TextView,
+        minTemp: Float,
+        maxTemp: Float
+    ) {
+        val temp:String = "Temp: " + minTemp + " - " + maxTemp
+        view.text = temp
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["firstName", "secondName"], requireAll = false)
+    fun setCityNameString(
+        view: TextView,
+        firstName: String?,
+        secondName: String?
+    ) {
+        firstName?.let {
+            view.text = it
+        }
+        secondName?.let {
+            view.text = it
+        }
+
+    }
+
+    @JvmStatic
+    @BindingAdapter("humidity")
+    fun setHumidityString(
+        view: TextView,
+        humidity: Double
+    ) {
+        val temp:String = "Humidity: " + humidity
+        view.text = temp
+    }
+
+    @JvmStatic
+    @BindingAdapter("pressure")
+    fun setPressureString(
+        view: TextView,
+        humidity: Double
+    ) {
+        val temp:String = "Pressure: " + humidity
+        view.text = temp
+    }
+
 }

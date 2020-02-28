@@ -6,14 +6,9 @@ import java.util.*
 
 object DateUtils {
     fun getDateAsString(timestamp: Long): String {
-        return formatDateTime("dd-MMM-yyyy", timestamp)
-    }
-
-    private fun formatDateTime(format: String, timestamp: Long): String {
-        val cal = Calendar.getInstance()
-        cal.timeInMillis = timestamp
-
-        val sdf = SimpleDateFormat(format, Locale.getDefault())
-        return sdf.format(cal.time)
+        val date = Date(timestamp * 1000 ) //in millis
+        val sdf = SimpleDateFormat("dd-MMM-yyyy HH:mm")
+        sdf.timeZone = TimeZone.getTimeZone("GMT")
+        return sdf.format(date)
     }
 }

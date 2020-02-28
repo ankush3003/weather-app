@@ -6,7 +6,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface WeatherApi{
-    //Q: What is suspend, why it's required,  Tyoe casting is required and woud be multiple, how can we avoid
     @GET("/data/2.5/forecast?zip=127021,in&appid=f4b98a08513742f455b15bc7e6f4016e")
     suspend fun getWeatherForecast(): Response<WeatherForecast>
 

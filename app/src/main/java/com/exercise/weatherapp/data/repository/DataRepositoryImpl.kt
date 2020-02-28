@@ -10,7 +10,6 @@ class DataRepositoryImpl(val api: WeatherApi) : IDataRepository {
             val result = api.getWeatherForecast()
             if (result.isSuccessful)
                 UseCaseResult.Success(result.body() as WeatherForecast)
-            //Q: Type casting is required everywhere...how can we avoid this
             else UseCaseResult.Error(RuntimeException("test error"))
         } catch (ex: Exception) {
             UseCaseResult.Error(ex)
