@@ -11,24 +11,43 @@ import com.exercise.weatherapp.models.WeatherData
 
 class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewModel(){
     private val job = Job()
-    /*val listOfTodo = ObservableArrayList<WeatherData>()
+    val weatherList = ObservableArrayList<WeatherData>()
     val showShimmerView = ObservableBoolean(true)
     val showErrorView = ObservableBoolean(false)
-*/
+
     //override val coroutineContext: CoroutineContext = Dispatchers.Main + job
     // Q: What is withContext, Scope?, suspend/resume?
-    fun getTodoList() {
+    fun getTodayWeather() {
         CoroutineScope(Dispatchers.Main).launch {
-            val result = withContext(Dispatchers.IO) { dataRepository.getTodoList() }
+            val result = withContext(Dispatchers.IO) { dataRepository.getTodayWeather() }
             //showShimmerView.set(false)
             when (result) {
                 is UseCaseResult.Success -> {
-                    /*listOfTodo.clear()
-                    listOfTodo.addAll(result.data)
-                    showErrorView.set(false)*/
+                    weatherList.clear()
+                    weatherList.add(result.data)
+                    showErrorView.set(false)
                 }
                 is UseCaseResult.Error -> {
-                    //showErrorView.set(true)
+                    showErrorView.set(true)
+                }
+            }
+        }
+        //Q: async and usage for coroutine?
+        // Q: println("")
+    }
+
+    fun getWeatherForecast() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val result = withContext(Dispatchers.IO) { dataRepository.getWeatherForecast() }
+            //showShimmerView.set(false)
+            when (result) {
+                is UseCaseResult.Success -> {
+                    weatherList.clear()
+                    //weatherList.addAll(result.data.list)
+                    showErrorView.set(false)
+                }
+                is UseCaseResult.Error -> {
+                    showErrorView.set(true)
                 }
             }
         }
@@ -37,11 +56,11 @@ class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewM
     }
 
     fun reloadList() {
-        /*if (listOfTodo.isNullOrEmpty()) {
+        if (weatherList.isNullOrEmpty()) {
             showErrorView.set(false)
             showShimmerView.set(true)
-            getTodoList()
-        }*/
+            getTodayWeather()
+        }
     }
 
     override fun onCleared() {

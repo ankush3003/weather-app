@@ -1,11 +1,21 @@
 package com.exercise.weatherapp.models
 
-import java.util.*
-
+/**
+ * Entry for single day
+ */
 data class WeatherData(
-    val minTemp: Double? = null,
-    val maxTemp: Double? = null,
-    val date: Date? = null,
+    val dt: Long? = null,
+    val main: MainTemp? = null,
+    val weather: List<Weather>? = null
+)
+
+data class MainTemp (
+    val temp_min: Float? = null,
+    val temp_max: Float? = null,
     var humidity: Double? = null,
     var pressure: Double? = null
+)
+
+data class Weather (
+    val description: String? = null
 )

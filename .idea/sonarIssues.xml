@@ -73,6 +73,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/exercise/weatherapp/models/WeatherForecast.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/exercise/weatherapp/ui/mainlist/MainActivity.kt">
           <value>
             <set />
