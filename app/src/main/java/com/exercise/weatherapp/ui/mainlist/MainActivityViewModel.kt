@@ -3,6 +3,8 @@ package com.exercise.weatherapp.ui.mainlist
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
+import com.exercise.weatherapp.BR
+import com.exercise.weatherapp.R
 import com.exercise.weatherapp.data.repository.IDataRepository
 import com.exercise.weatherapp.data.repository.UseCaseResult
 import kotlinx.coroutines.*
@@ -20,7 +22,7 @@ class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewM
     fun getTodayWeather() {
         CoroutineScope(Dispatchers.Main).launch {
             val result = withContext(Dispatchers.IO) { dataRepository.getTodayWeather() }
-            //showShimmerView.set(false)
+            showShimmerView.set(false)
             when (result) {
                 is UseCaseResult.Success -> {
                     weatherList.clear()
@@ -32,14 +34,12 @@ class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewM
                 }
             }
         }
-        //Q: async and usage for coroutine?
-        // Q: println("")
     }
 
     fun getWeatherForecast() {
         CoroutineScope(Dispatchers.Main).launch {
             val result = withContext(Dispatchers.IO) { dataRepository.getWeatherForecast() }
-            //showShimmerView.set(false)
+            showShimmerView.set(false)
             when (result) {
                 is UseCaseResult.Success -> {
                     weatherList.clear()
@@ -51,8 +51,6 @@ class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewM
                 }
             }
         }
-        //Q: async and usage for coroutine?
-        // Q: println("")
     }
 
     fun reloadList() {
@@ -70,8 +68,8 @@ class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewM
 
     /**
      * The Single item.
-
-    val accessoryBinding = ItemBinding.of<ListItem> { itemBinding, _, _ ->
-        itemBinding.set(BR.itemViewModel, R.layout.layout_item_todo_list)
-    }*/
+     */
+    val accessoryBinding = ItemBinding.of<WeatherData> { itemBinding, _, _ ->
+        itemBinding.set(BR.itemViewModel, R.layout.layout_item_weather)
+    }
 }

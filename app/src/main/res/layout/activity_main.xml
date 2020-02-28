@@ -20,12 +20,12 @@
             app:viewmodel="@{viewmodel}"/>
 
         <!--<androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_todo"
+            android:id="@+id/rv_weather"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:itemBinding="@{viewmodel.accessoryBinding}"
-            app:items="@{viewmodel.listOfTodo}"
+            app:items="@{viewmodel.weatherList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/layout_item_weather"
             app:isVisible="@{!viewmodel.showErrorView}"/> -->

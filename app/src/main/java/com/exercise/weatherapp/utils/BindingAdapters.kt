@@ -5,9 +5,6 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.facebook.shimmer.ShimmerFrameLayout
 
-//Q:
-// Why object, can be compiled without object,
-// Why jvmstatic, how to access these methods from activity
 object BindingAdapters {
     @JvmStatic
     @BindingAdapter("app:task_completion_text")

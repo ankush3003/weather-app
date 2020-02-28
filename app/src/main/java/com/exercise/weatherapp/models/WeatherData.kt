@@ -6,7 +6,8 @@ package com.exercise.weatherapp.models
 data class WeatherData(
     val dt: Long? = null,
     val main: MainTemp? = null,
-    val weather: List<Weather>? = null
+    val weather: List<Weather>? = null,
+    val name: String? = null
 )
 
 data class MainTemp (

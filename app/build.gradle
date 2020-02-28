@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -17,7 +18,7 @@ android {
     }
     buildTypes {
         debug{
-            buildConfigField "String", "API_URL", '"http://api.openweathermap.org"'
+            buildConfigField "String", "API_URL", '"https://api.openweathermap.org"'
             debuggable true
         }
         release {
