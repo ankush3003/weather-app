@@ -12,7 +12,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
-class MainActivityViewModelTest {
+class MainActivityViewModelTest1 {
     @Rule val instantExecutorRule = InstantTaskExecutorRule()
 
     lateinit var mainActivityViewModel: MainActivityViewModel

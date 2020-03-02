@@ -1,9 +1,5 @@
 package com.exercise.weatherapp.ui.mainlist
 
-import android.database.Observable
-import androidx.databinding.ObservableArrayList
-import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.exercise.weatherapp.BR
@@ -16,57 +12,57 @@ import com.exercise.weatherapp.models.WeatherData
 
 class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewModel(){
     private val job = Job()
-    val weatherList = ObservableArrayList<WeatherData>()
-    val showShimmerView = ObservableBoolean(true)
-    val showErrorView = ObservableBoolean(false)
-    val cityName: ObservableField<String> = ObservableField("")
+    val weatherList: MutableList<WeatherData> = mutableListOf<WeatherData>()
+    val showShimmerView: MutableLiveData<Boolean> = MutableLiveData(true)
+    val showErrorView: MutableLiveData<Boolean> = MutableLiveData(false)
+    val cityName: MutableLiveData<String> = MutableLiveData("")
 
     fun getTodayWeather() {
-        showShimmerView.set(true)
+        showShimmerView.postValue(true)
         weatherList.clear()
         CoroutineScope(Dispatchers.Main).launch {
             val result = withContext(Dispatchers.IO) { dataRepository.getTodayWeather() }
             when (result) {
                 is UseCaseResult.Success -> {
-                    showShimmerView.set(false)
-                    showErrorView.set(false)
+                    showShimmerView.postValue(false)
+                    showErrorView.postValue(false)
 
                     weatherList.clear()
                     weatherList.add(result.data)
-                    cityName.set(result.data.name)
+                    cityName.postValue(result.data.name)
                 }
                 is UseCaseResult.Error -> {
-                    showShimmerView.set(false)
-                    showErrorView.set(true)
+                    showShimmerView.postValue(false)
+                    showErrorView.postValue(true)
                 }
             }
         }
     }
 
     fun getWeatherForecast() {
-        showShimmerView.set(true)
+        showShimmerView.postValue(true)
         weatherList.clear()
         CoroutineScope(Dispatchers.Main).launch {
             val result = withContext(Dispatchers.IO) { dataRepository.getWeatherForecast() }
-            showShimmerView.set(false)
+            showShimmerView.postValue(false)
             when (result) {
                 is UseCaseResult.Success -> {
 
                     result.data.list?.let {
-                        showShimmerView.set(false)
-                        showErrorView.set(false)
+                        showShimmerView.postValue(false)
+                        showErrorView.postValue(false)
 
                         weatherList.clear()
                         weatherList.addAll(it)
                     }
 
                     result.data.city?.let{
-                         cityName.set(it.name)
+                         cityName.postValue(it.name)
                     }
                 }
                 is UseCaseResult.Error -> {
-                    showErrorView.set(true)
-                    showShimmerView.set(false)
+                    showErrorView.postValue(true)
+                    showShimmerView.postValue(false)
                 }
             }
         }
@@ -74,8 +70,8 @@ class MainActivityViewModel(private val dataRepository: IDataRepository) : ViewM
 
     fun reloadList() {
         if (weatherList.isNullOrEmpty()) {
-            showErrorView.set(false)
-            showShimmerView.set(true)
+            showErrorView.postValue(false)
+            showShimmerView.postValue(true)
             getWeatherForecast()
         }
     }
